@@ -1,0 +1,50 @@
+{
+  "name": "node-template",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun --minify",
+    "start": "bun dist/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun run src/db/migrate.ts",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^7.3.3",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "drizzle-orm": "^0.40.0",
+    "express": "^5.0.1",
+    "helmet": "^8.0.0",
+    "jose": "^5.10.0",
+    "pg": "^8.13.3",
+    "pino": "^9.6.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.17",
+    "@types/pg": "^8.11.11",
+    "@types/swagger-ui-express": "^4.1.8",
+    "drizzle-kit": "^0.30.4",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "globals": "^15.14.0",
+    "pino-pretty": "^13.0.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.23.0"
+  }
+}

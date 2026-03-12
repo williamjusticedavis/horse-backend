@@ -1,0 +1,12 @@
+import { createApp } from './app'
+import { config } from '@/lib/config'
+import { logger } from '@/lib/logger'
+
+const app = createApp()
+
+app.listen(config.port, () => {
+  logger.info(
+    { port: config.port, env: config.env, docs: `http://localhost:${config.port}/docs` },
+    'Server started'
+  )
+})
