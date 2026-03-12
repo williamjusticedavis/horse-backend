@@ -9,7 +9,7 @@ export const getMe: RequestHandler = async (req, res) => {
   const { userId } = req as AuthenticatedRequest
 
   const [user] = await db
-    .select({ id: users.id, email: users.email, createdAt: users.createdAt })
+    .select({ id: users.id, email: users.email, role: users.role, createdAt: users.createdAt })
     .from(users)
     .where(eq(users.id, userId))
     .limit(1)

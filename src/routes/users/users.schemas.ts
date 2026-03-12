@@ -5,6 +5,7 @@ export const MeResponseSchema = z.object({
   user: z.object({
     id: z.string().uuid(),
     email: z.string().email(),
+    role: z.enum(['admin', 'user']),
     createdAt: z.string().datetime(),
   }),
 })

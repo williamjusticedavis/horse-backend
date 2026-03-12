@@ -19,7 +19,11 @@ export const RefreshBodySchema = z.object({
 
 // ── Shared response shape ──────────────────────────────────────────────────────
 
-const UserSchema = z.object({ id: z.string().uuid(), email: z.string().email() })
+const UserSchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  role: z.enum(['admin', 'user']),
+})
 
 const TokensSchema = z.object({
   accessToken: z.string(),

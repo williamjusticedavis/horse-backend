@@ -56,7 +56,7 @@ export const register: RequestHandler<
   const [user] = await db
     .insert(users)
     .values({ email, passwordHash })
-    .returning({ id: users.id, email: users.email })
+    .returning({ id: users.id, email: users.email, role: users.role })
 
   const tokens = await createTokenPair(user.id)
 
@@ -78,7 +78,7 @@ export const login: RequestHandler<
 
   const tokens = await createTokenPair(user.id)
 
-  res.json({ user: { id: user.id, email: user.email }, ...tokens })
+  res.json({ user: { id: user.id, email: user.email, role: user.role }, ...tokens })
 }
 
 export const refresh: RequestHandler<
