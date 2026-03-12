@@ -39,7 +39,10 @@ export function createApp() {
   // ── Uploads (static files) ────────────────────────────────────────────────────
   const uploadsDir = join(process.cwd(), 'uploads')
   mkdirSync(uploadsDir, { recursive: true })
-  app.use('/uploads', express.static(uploadsDir))
+  app.use('/uploads', (_req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+    next()
+  }, express.static(uploadsDir))
 
   // ── API routes ────────────────────────────────────────────────────────────────
   app.use('/api', router)
