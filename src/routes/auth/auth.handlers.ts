@@ -21,8 +21,8 @@ const refreshSecret = new TextEncoder().encode(config.jwtRefreshSecret)
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-async function createTokenPair(userId: string) {
-  const accessToken = await new jose.SignJWT()
+async function createTokenPair(userId: string, role: 'admin' | 'user') {
+  const accessToken = await new jose.SignJWT({ role })
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(userId)
     .setIssuedAt()
@@ -58,7 +58,7 @@ export const register: RequestHandler<
     .values({ email, passwordHash })
     .returning({ id: users.id, email: users.email, role: users.role })
 
-  const tokens = await createTokenPair(user.id)
+  const tokens = await createTokenPair(user.id, user.role)
 
   res.status(201).json({ user, ...tokens })
 }
@@ -76,7 +76,7 @@ export const login: RequestHandler<
   const valid = await bcrypt.compare(password, user.passwordHash)
   if (!valid) throw new AppError(401, 'Invalid credentials')
 
-  const tokens = await createTokenPair(user.id)
+  const tokens = await createTokenPair(user.id, user.role)
 
   res.json({ user: { id: user.id, email: user.email, role: user.role }, ...tokens })
 }

@@ -12,6 +12,8 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
+import { join } from 'path'
+import { mkdirSync } from 'fs'
 import { config } from '@/lib/config'
 import { logger } from '@/lib/logger'
 import { errorHandler } from '@/middleware/error-handler'
@@ -33,6 +35,11 @@ export function createApp() {
     logger.debug({ method: req.method, url: req.url }, 'incoming request')
     next()
   })
+
+  // ── Uploads (static files) ────────────────────────────────────────────────────
+  const uploadsDir = join(process.cwd(), 'uploads')
+  mkdirSync(uploadsDir, { recursive: true })
+  app.use('/uploads', express.static(uploadsDir))
 
   // ── API routes ────────────────────────────────────────────────────────────────
   app.use('/api', router)

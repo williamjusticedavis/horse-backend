@@ -17,16 +17,35 @@ const HorseSchema = z.object({
   breed: z.string().nullable(),
   color: z.string().nullable(),
   imageEmoji: z.string().nullable(),
+  imageUrl: z.string().nullable(),
   tags: z.array(TagSchema),
 })
 
-export const HorsesListResponseSchema = z.object({
-  horses: z.array(HorseSchema),
+export const HorsesListResponseSchema = z.object({ horses: z.array(HorseSchema) })
+export const HorseDetailResponseSchema = z.object({ horse: HorseSchema })
+
+const TagCategoryEnum = z.enum(['age', 'temperament', 'level', 'purpose', 'gender', 'size', 'color', 'seniority'])
+
+export const UpdateHorseBodySchema = z.object({
+  name: z.string().min(1).optional(),
+  age: z.number().int().min(0).optional(),
+  description: z.string().min(1).optional(),
+  fullDescription: z.string().nullable().optional(),
+  breed: z.string().nullable().optional(),
+  color: z.string().nullable().optional(),
+  imageEmoji: z.string().nullable().optional(),
+  tags: z
+    .array(
+      z.object({
+        category: TagCategoryEnum,
+        label: z.string().min(1),
+        note: z.string().nullable(),
+      })
+    )
+    .optional(),
 })
 
-export const HorseDetailResponseSchema = z.object({
-  horse: HorseSchema,
-})
+export type UpdateHorseBody = z.infer<typeof UpdateHorseBodySchema>
 
 registry.registerPath({
   method: 'get',
@@ -52,5 +71,60 @@ registry.registerPath({
     },
     400: { description: 'Invalid horse id' },
     404: { description: 'Horse not found' },
+  },
+})
+
+registry.registerPath({
+  method: 'patch',
+  path: '/horses/{id}',
+  tags: ['Horses'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: z.object({ id: z.string() }),
+    body: { content: { 'application/json': { schema: UpdateHorseBodySchema } } },
+  },
+  responses: {
+    200: {
+      description: 'Updated horse.',
+      content: { 'application/json': { schema: HorseDetailResponseSchema } },
+    },
+    400: { description: 'Invalid input' },
+    403: { description: 'Forbidden' },
+    404: { description: 'Horse not found' },
+  },
+})
+
+registry.registerPath({
+  method: 'post',
+  path: '/horses/{id}/image',
+  tags: ['Horses'],
+  security: [{ bearerAuth: [] }],
+  request: { params: z.object({ id: z.string() }) },
+  responses: {
+    200: {
+      description: 'Uploaded image URL.',
+      content: { 'application/json': { schema: z.object({ imageUrl: z.string() }) } },
+    },
+    400: { description: 'No file or invalid type' },
+    403: { description: 'Forbidden' },
+    404: { description: 'Horse not found' },
+  },
+})
+
+registry.registerPath({
+  method: 'get',
+  path: '/horses/tag-vocabulary',
+  tags: ['Horses'],
+  responses: {
+    200: {
+      description: 'All unique tag category+label pairs.',
+      content: {
+        'application/json': {
+          schema: z.object({
+            tags: z.array(z.object({ category: TagCategoryEnum, label: z.string() })),
+          }),
+        },
+      },
+    },
   },
 })

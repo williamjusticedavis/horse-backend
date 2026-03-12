@@ -1,0 +1,1 @@
+ALTER TABLE "horses" ADD COLUMN "image_url" varchar(500);

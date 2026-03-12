@@ -21,6 +21,7 @@ export const horses = pgTable('horses', {
   breed: varchar('breed', { length: 100 }),
   color: varchar('color', { length: 100 }),
   imageEmoji: varchar('image_emoji', { length: 10 }),
+  imageUrl: varchar('image_url', { length: 500 }),
 })
 
 export const horseTags = pgTable('horse_tags', {
