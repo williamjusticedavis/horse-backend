@@ -102,7 +102,13 @@ export const refresh: RequestHandler<
   // Rotate: delete the used token, issue a fresh pair
   await db.delete(refreshTokens).where(eq(refreshTokens.id, token.id))
 
-  const tokens = await createTokenPair(token.userId)
+  const [user] = await db
+    .select({ role: users.role })
+    .from(users)
+    .where(eq(users.id, token.userId))
+    .limit(1)
+
+  const tokens = await createTokenPair(token.userId, user?.role ?? 'user')
 
   res.json(tokens)
 }
