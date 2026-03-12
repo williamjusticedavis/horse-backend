@@ -8,6 +8,20 @@
       "when": 1740000000000,
       "tag": "0000_initial",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773322904813,
+      "tag": "0001_blue_glorian",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773323714381,
+      "tag": "0002_smart_molecule_man",
+      "breakpoints": true
     }
   ]
 }
