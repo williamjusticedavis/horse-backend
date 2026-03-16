@@ -28,12 +28,32 @@ const envSchema = z.object({
    */
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
 
-  LOG_LEVEL: z
-    .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
-    .optional(),
+  LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).optional(),
 })
 
 const parsed = envSchema.parse(process.env)
+
+const r2Env = {
+  accountId: process.env.R2_ACCOUNT_ID,
+  accessKeyId: process.env.R2_ACCESS_KEY_ID,
+  secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+  bucketName: process.env.R2_BUCKET_NAME,
+  publicUrl: process.env.R2_PUBLIC_URL,
+}
+const r2 =
+  r2Env.accountId &&
+  r2Env.accessKeyId &&
+  r2Env.secretAccessKey &&
+  r2Env.bucketName &&
+  r2Env.publicUrl
+    ? (r2Env as {
+        accountId: string
+        accessKeyId: string
+        secretAccessKey: string
+        bucketName: string
+        publicUrl: string
+      })
+    : null
 
 export const config = {
   env: parsed.NODE_ENV,
@@ -48,6 +68,8 @@ export const config = {
 
   corsOrigin: parsed.CORS_ORIGIN,
   logLevel: parsed.LOG_LEVEL,
+
+  r2,
 
   isDev: parsed.NODE_ENV === 'development',
   isProd: parsed.NODE_ENV === 'production',

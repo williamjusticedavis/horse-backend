@@ -1,8 +1,12 @@
 import type { RequestHandler } from 'express'
 import { asc, eq } from 'drizzle-orm'
+import { extname } from 'path'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { db } from '@/db'
 import { horses, horseTags } from '@/db/schema'
 import { AppError } from '@/middleware/error-handler'
+import { config } from '@/lib/config'
+import { r2 } from '@/lib/r2'
 import type { CreateHorseBody, UpdateHorseBody } from './horses.schemas'
 
 export const createHorse: RequestHandler = async (req, res) => {
@@ -49,7 +53,11 @@ export const updateHorse: RequestHandler = async (req, res) => {
 
   const { tags, ...horseData } = req.body as UpdateHorseBody
 
-  const [existing] = await db.select({ id: horses.id }).from(horses).where(eq(horses.id, id)).limit(1)
+  const [existing] = await db
+    .select({ id: horses.id })
+    .from(horses)
+    .where(eq(horses.id, id))
+    .limit(1)
   if (!existing) throw new AppError(404, 'Horse not found')
 
   if (Object.keys(horseData).length > 0) {
@@ -76,7 +84,22 @@ export const uploadHorseImage: RequestHandler = async (req, res) => {
   if (!Number.isInteger(id) || id < 1) throw new AppError(400, 'Invalid horse id')
   if (!req.file) throw new AppError(400, 'No file uploaded')
 
-  const imageUrl = `/uploads/${req.file.filename}`
+  let imageUrl: string
+  if (r2 && config.r2) {
+    const ext = extname(req.file.originalname).toLowerCase()
+    const key = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`
+    await r2.send(
+      new PutObjectCommand({
+        Bucket: config.r2.bucketName,
+        Key: key,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype,
+      })
+    )
+    imageUrl = `${config.r2.publicUrl}/${key}`
+  } else {
+    imageUrl = `/uploads/${req.file.filename}`
+  }
 
   const [updated] = await db
     .update(horses)

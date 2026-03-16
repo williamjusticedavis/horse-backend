@@ -6,19 +6,19 @@ Designed to pair with [frontend-template](../frontend-template) (React + TanStac
 
 ## Stack
 
-| Layer           | Library                                                                 |
-| --------------- | ----------------------------------------------------------------------- |
-| Runtime & tests | [Bun](https://bun.sh)                                                   |
-| Framework       | [Express 5](https://expressjs.com)                                      |
-| Language        | TypeScript (strict)                                                     |
-| ORM             | [Drizzle ORM](https://orm.drizzle.team) + [pg](https://node-postgres.com) |
-| Database        | PostgreSQL 17                                                           |
-| Validation      | [Zod](https://zod.dev) (requests + env vars)                            |
-| Auth            | JWT via [jose](https://github.com/panva/jose) (access + refresh tokens) |
-| Logging         | [Pino](https://getpino.io) + pino-pretty (dev)                          |
+| Layer           | Library                                                                                         |
+| --------------- | ----------------------------------------------------------------------------------------------- |
+| Runtime & tests | [Bun](https://bun.sh)                                                                           |
+| Framework       | [Express 5](https://expressjs.com)                                                              |
+| Language        | TypeScript (strict)                                                                             |
+| ORM             | [Drizzle ORM](https://orm.drizzle.team) + [pg](https://node-postgres.com)                       |
+| Database        | PostgreSQL 17                                                                                   |
+| Validation      | [Zod](https://zod.dev) (requests + env vars)                                                    |
+| Auth            | JWT via [jose](https://github.com/panva/jose) (access + refresh tokens)                         |
+| Logging         | [Pino](https://getpino.io) + pino-pretty (dev)                                                  |
 | OpenAPI         | [@asteasolutions/zod-to-openapi](https://github.com/asteasolutions/zod-to-openapi) + Swagger UI |
-| Linting         | ESLint 9 (flat config) + TypeScript ESLint                              |
-| Formatting      | Prettier                                                                |
+| Linting         | ESLint 9 (flat config) + TypeScript ESLint                                                      |
+| Formatting      | Prettier                                                                                        |
 
 ## Getting started
 
@@ -85,17 +85,17 @@ The `dev` service runs `bun install && bun run db:migrate && bun run dev` on sta
 
 All variables are read once at startup and validated with Zod. A clear error is thrown if any required variable is missing.
 
-| Variable                | Default                       | Required | Description                                          |
-| ----------------------- | ----------------------------- | -------- | ---------------------------------------------------- |
-| `PORT`                  | `8000`                        |          | Port the server listens on                           |
-| `NODE_ENV`              | `development`                 |          | `development` \| `production` \| `test`              |
-| `DATABASE_URL`          | —                             | ✅        | Postgres connection string                           |
-| `JWT_ACCESS_SECRET`     | —                             | ✅        | Secret for signing access tokens (min 32 chars)      |
-| `JWT_REFRESH_SECRET`    | —                             | ✅        | Secret for signing refresh tokens (min 32 chars)     |
-| `JWT_ACCESS_EXPIRES_IN` | `15m`                         |          | Access token lifetime (any string `jose` accepts)    |
-| `JWT_REFRESH_EXPIRES_IN`| `7d`                          |          | Refresh token lifetime                               |
-| `CORS_ORIGIN`           | `http://localhost:5173`       |          | Allowed CORS origin (matches frontend-template)      |
-| `LOG_LEVEL`             | `debug` (dev) / `info` (prod) |          | `fatal` \| `error` \| `warn` \| `info` \| `debug` \| `trace` |
+| Variable                 | Default                       | Required | Description                                                  |
+| ------------------------ | ----------------------------- | -------- | ------------------------------------------------------------ |
+| `PORT`                   | `8000`                        |          | Port the server listens on                                   |
+| `NODE_ENV`               | `development`                 |          | `development` \| `production` \| `test`                      |
+| `DATABASE_URL`           | —                             | ✅       | Postgres connection string                                   |
+| `JWT_ACCESS_SECRET`      | —                             | ✅       | Secret for signing access tokens (min 32 chars)              |
+| `JWT_REFRESH_SECRET`     | —                             | ✅       | Secret for signing refresh tokens (min 32 chars)             |
+| `JWT_ACCESS_EXPIRES_IN`  | `15m`                         |          | Access token lifetime (any string `jose` accepts)            |
+| `JWT_REFRESH_EXPIRES_IN` | `7d`                          |          | Refresh token lifetime                                       |
+| `CORS_ORIGIN`            | `http://localhost:5173`       |          | Allowed CORS origin (matches frontend-template)              |
+| `LOG_LEVEL`              | `debug` (dev) / `info` (prod) |          | `fatal` \| `error` \| `warn` \| `info` \| `debug` \| `trace` |
 
 `src/lib/config.ts` is the single source of truth — import from there, never read `process.env` directly.
 
@@ -161,9 +161,12 @@ GET  /api/users/me        Authorization: Bearer <accessToken>
 ```
 
 Include the access token in requests:
+
 ```ts
 // In the frontend-template this is handled by src/lib/api.ts
-headers: { Authorization: `Bearer ${accessToken}` }
+headers: {
+  Authorization: `Bearer ${accessToken}`
+}
 ```
 
 Access tokens expire in **15 minutes**. Use the refresh endpoint to get a new pair before they expire.

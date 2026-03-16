@@ -3,7 +3,16 @@ import { registry } from '@/lib/openapi'
 
 const TagSchema = z.object({
   id: z.number().int(),
-  category: z.enum(['age', 'temperament', 'level', 'purpose', 'gender', 'size', 'color', 'seniority']),
+  category: z.enum([
+    'age',
+    'temperament',
+    'level',
+    'purpose',
+    'gender',
+    'size',
+    'color',
+    'seniority',
+  ]),
   label: z.string(),
   note: z.string().nullable(),
 })
@@ -24,7 +33,16 @@ const HorseSchema = z.object({
 export const HorsesListResponseSchema = z.object({ horses: z.array(HorseSchema) })
 export const HorseDetailResponseSchema = z.object({ horse: HorseSchema })
 
-const TagCategoryEnum = z.enum(['age', 'temperament', 'level', 'purpose', 'gender', 'size', 'color', 'seniority'])
+const TagCategoryEnum = z.enum([
+  'age',
+  'temperament',
+  'level',
+  'purpose',
+  'gender',
+  'size',
+  'color',
+  'seniority',
+])
 
 export const CreateHorseBodySchema = z.object({
   name: z.string().min(1),

@@ -15,7 +15,15 @@ if (!databaseUrl) throw new Error('DATABASE_URL environment variable is required
 const pool = new Pool({ connectionString: databaseUrl })
 const db = drizzle({ client: pool })
 
-type TagCategory = 'age' | 'temperament' | 'level' | 'purpose' | 'gender' | 'size' | 'color' | 'seniority'
+type TagCategory =
+  | 'age'
+  | 'temperament'
+  | 'level'
+  | 'purpose'
+  | 'gender'
+  | 'size'
+  | 'color'
+  | 'seniority'
 
 const seedData = [
   {
@@ -144,7 +152,11 @@ for (const data of seedData) {
   const { tags, ...horseData } = data
 
   // Upsert horse by name
-  let [existing] = await db.select({ id: horses.id }).from(horses).where(eq(horses.name, horseData.name)).limit(1)
+  let [existing] = await db
+    .select({ id: horses.id })
+    .from(horses)
+    .where(eq(horses.name, horseData.name))
+    .limit(1)
   if (!existing) {
     ;[existing] = await db.insert(horses).values(horseData).returning({ id: horses.id })
     console.log(`Inserted horse: ${horseData.name}`)
