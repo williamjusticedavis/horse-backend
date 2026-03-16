@@ -26,6 +26,27 @@ export const HorseDetailResponseSchema = z.object({ horse: HorseSchema })
 
 const TagCategoryEnum = z.enum(['age', 'temperament', 'level', 'purpose', 'gender', 'size', 'color', 'seniority'])
 
+export const CreateHorseBodySchema = z.object({
+  name: z.string().min(1),
+  age: z.number().int().min(0),
+  description: z.string().min(1),
+  fullDescription: z.string().nullable().optional(),
+  breed: z.string().nullable().optional(),
+  color: z.string().nullable().optional(),
+  imageEmoji: z.string().nullable().optional(),
+  tags: z
+    .array(
+      z.object({
+        category: TagCategoryEnum,
+        label: z.string().min(1),
+        note: z.string().nullable(),
+      })
+    )
+    .optional(),
+})
+
+export type CreateHorseBody = z.infer<typeof CreateHorseBodySchema>
+
 export const UpdateHorseBodySchema = z.object({
   name: z.string().min(1).optional(),
   age: z.number().int().min(0).optional(),
@@ -46,6 +67,24 @@ export const UpdateHorseBodySchema = z.object({
 })
 
 export type UpdateHorseBody = z.infer<typeof UpdateHorseBodySchema>
+
+registry.registerPath({
+  method: 'post',
+  path: '/horses',
+  tags: ['Horses'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: { content: { 'application/json': { schema: CreateHorseBodySchema } } },
+  },
+  responses: {
+    201: {
+      description: 'Created horse.',
+      content: { 'application/json': { schema: HorseDetailResponseSchema } },
+    },
+    400: { description: 'Invalid input' },
+    403: { description: 'Forbidden' },
+  },
+})
 
 registry.registerPath({
   method: 'get',

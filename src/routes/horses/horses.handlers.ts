@@ -3,7 +3,24 @@ import { asc, eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { horses, horseTags } from '@/db/schema'
 import { AppError } from '@/middleware/error-handler'
-import type { UpdateHorseBody } from './horses.schemas'
+import type { CreateHorseBody, UpdateHorseBody } from './horses.schemas'
+
+export const createHorse: RequestHandler = async (req, res) => {
+  const { tags, ...horseData } = req.body as CreateHorseBody
+
+  const [created] = await db.insert(horses).values(horseData).returning({ id: horses.id })
+
+  if (tags && tags.length > 0) {
+    await db.insert(horseTags).values(tags.map((t) => ({ ...t, horseId: created.id })))
+  }
+
+  const horse = await db.query.horses.findFirst({
+    where: eq(horses.id, created.id),
+    with: { tags: { orderBy: (t, { asc: a }) => [a(t.id)] } },
+  })
+
+  res.status(201).json({ horse })
+}
 
 export const getHorses: RequestHandler = async (_req, res) => {
   const result = await db.query.horses.findMany({
