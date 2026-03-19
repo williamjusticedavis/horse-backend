@@ -25,7 +25,6 @@ const HorseSchema = z.object({
   fullDescription: z.string().nullable(),
   breed: z.string().nullable(),
   color: z.string().nullable(),
-  imageEmoji: z.string().nullable(),
   imageUrl: z.string().nullable(),
   tags: z.array(TagSchema),
 })
@@ -51,7 +50,6 @@ export const CreateHorseBodySchema = z.object({
   fullDescription: z.string().nullable().optional(),
   breed: z.string().nullable().optional(),
   color: z.string().nullable().optional(),
-  imageEmoji: z.string().nullable().optional(),
   tags: z
     .array(
       z.object({
@@ -72,7 +70,6 @@ export const UpdateHorseBodySchema = z.object({
   fullDescription: z.string().nullable().optional(),
   breed: z.string().nullable().optional(),
   color: z.string().nullable().optional(),
-  imageEmoji: z.string().nullable().optional(),
   tags: z
     .array(
       z.object({
@@ -163,6 +160,20 @@ registry.registerPath({
       content: { 'application/json': { schema: z.object({ imageUrl: z.string() }) } },
     },
     400: { description: 'No file or invalid type' },
+    403: { description: 'Forbidden' },
+    404: { description: 'Horse not found' },
+  },
+})
+
+registry.registerPath({
+  method: 'delete',
+  path: '/horses/{id}',
+  tags: ['Horses'],
+  security: [{ bearerAuth: [] }],
+  request: { params: z.object({ id: z.string() }) },
+  responses: {
+    204: { description: 'Horse deleted.' },
+    400: { description: 'Invalid horse id' },
     403: { description: 'Forbidden' },
     404: { description: 'Horse not found' },
   },

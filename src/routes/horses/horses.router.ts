@@ -10,6 +10,7 @@ import {
   updateHorse,
   uploadHorseImage,
   getTagVocabulary,
+  deleteHorse,
 } from './horses.handlers'
 import { CreateHorseBodySchema, UpdateHorseBodySchema } from './horses.schemas'
 import './horses.schemas' // registers OpenAPI paths
@@ -35,6 +36,7 @@ horsesRouter.patch(
   validate({ body: UpdateHorseBodySchema }),
   updateHorse
 )
+horsesRouter.delete('/:id', authenticate, requireRole('admin'), deleteHorse)
 horsesRouter.post(
   '/:id/image',
   authenticate,

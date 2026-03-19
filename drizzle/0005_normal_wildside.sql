@@ -1,0 +1,1 @@
+ALTER TABLE "horses" DROP COLUMN "image_emoji";

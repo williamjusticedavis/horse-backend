@@ -34,7 +34,6 @@ const seedData = [
       'ענן הוא סוס חום עדין ומסור, עם לב טוב במיוחד לילדים. הוא משתתף בתוכנית הרכיבה הטיפולית שלנו כבר שש שנים ומרגיש את צרכיהם של הרוכבים באופן יוצא דופן. בחירה מושלמת עבור מי שמתחיל את מסע הטיפול הרגשי.',
     breed: 'חצי דם',
     color: 'חום',
-    imageEmoji: '🐴',
     tags: [
       { category: 'age' as TagCategory, label: 'בוגר' },
       { category: 'temperament' as TagCategory, label: 'רגוע' },
@@ -54,7 +53,6 @@ const seedData = [
       'ברק הוא סוס שחור יפהפה עם אנרגיה רבה ורצון עז להצליח. הוא מצטיין בתרגילי קפיצות ודרסאז׳ ברמה גבוהה. מתאים לרוכבים מנוסים שמחפשים אתגר אמיתי ושותף נאמן לאימונים.',
     breed: 'ולבלוד',
     color: 'שחור',
-    imageEmoji: '🐎',
     tags: [
       { category: 'age' as TagCategory, label: 'צעיר' },
       { category: 'temperament' as TagCategory, label: 'אנרגטי' },
@@ -74,7 +72,6 @@ const seedData = [
       'כוכב היא סייחה לבנה מרהיבה עם אופי רגוע ומאוזן. בשנות הניסיון הרבות שלה, היא ליוותה מאות רוכבים בצעדיהם הראשונים. סבלנותה האינסופית הופכת אותה לבחירה הטובה ביותר למתחילים ולילדים.',
     breed: 'ערבי',
     color: 'לבן',
-    imageEmoji: '🐴',
     tags: [
       { category: 'age' as TagCategory, label: 'זקן' },
       { category: 'temperament' as TagCategory, label: 'רגוע' },
@@ -94,7 +91,6 @@ const seedData = [
       'סופה היא סוסה חומה יוצאת דופן עם נוכחות מלכותית. אופייה החזק והבטוח בעצמה מושך רוכבים שמחפשים סוסה עם אישיות. היא מצטיינת בתרגילי שדה ורכיבה בטבע הפתוח.',
     breed: 'קוורטר הורס',
     color: 'חום כהה',
-    imageEmoji: '🐎',
     tags: [
       { category: 'age' as TagCategory, label: 'בוגר' },
       { category: 'temperament' as TagCategory, label: 'סוער' },
@@ -114,7 +110,6 @@ const seedData = [
       'גל הוא סוס אפור בעל חוכמת שנים. הניסיון העשיר שלו בטיפול רגשי הופך אותו לשותף יקר ערך לפסיכולוגים ומטפלים. הוא מרגיש את מצב הרוח של האדם לידו ומגיב בהתאם בעדינות ובאמפתיה.',
     breed: 'חצי דם',
     color: 'אפור',
-    imageEmoji: '🐴',
     tags: [
       { category: 'age' as TagCategory, label: 'בוגר' },
       { category: 'temperament' as TagCategory, label: 'רגוע' },
@@ -134,7 +129,6 @@ const seedData = [
       'אש הוא סוס חום-אדמדם עם ניצוץ בעיניים. האישיות השובבה שלו ואהבתו לבני אדם הופכים כל מפגש לחוויה בלתי נשכחת. הוא מתאים לפעילויות פנאי ורכיבה ספורטיבית ברמה בינונית.',
     breed: 'מוסטנג',
     color: 'ערמוני',
-    imageEmoji: '🐎',
     tags: [
       { category: 'age' as TagCategory, label: 'צעיר' },
       { category: 'temperament' as TagCategory, label: 'אנרגטי' },

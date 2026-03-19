@@ -112,11 +112,46 @@ export const uploadHorseImage: RequestHandler = async (req, res) => {
   res.json({ imageUrl })
 }
 
-export const getTagVocabulary: RequestHandler = async (_req, res) => {
-  const tags = await db
-    .selectDistinct({ category: horseTags.category, label: horseTags.label })
-    .from(horseTags)
-    .orderBy(horseTags.category, horseTags.label)
+const TAG_VOCABULARY: { category: (typeof horseTags.$inferSelect)['category']; label: string }[] = [
+  { category: 'age', label: 'גור' },
+  { category: 'age', label: 'צעיר' },
+  { category: 'age', label: 'בוגר' },
+  { category: 'age', label: 'זקן' },
+  { category: 'temperament', label: 'רגוע' },
+  { category: 'temperament', label: 'אנרגטי' },
+  { category: 'temperament', label: 'סוער' },
+  { category: 'level', label: 'מתאים למתחילים' },
+  { category: 'level', label: 'בינוני' },
+  { category: 'level', label: 'מתקדם' },
+  { category: 'purpose', label: 'טיפולי' },
+  { category: 'purpose', label: 'פנאי' },
+  { category: 'purpose', label: 'תחרותי' },
+  { category: 'gender', label: 'סוס' },
+  { category: 'gender', label: 'סוסה' },
+  { category: 'size', label: 'קטן' },
+  { category: 'size', label: 'בינוני' },
+  { category: 'size', label: 'גדול' },
+  { category: 'color', label: 'לבן' },
+  { category: 'color', label: 'אפור' },
+  { category: 'color', label: 'חום' },
+  { category: 'color', label: 'חום כהה' },
+  { category: 'color', label: 'שחור' },
+  { category: 'color', label: 'ערמוני' },
+  { category: 'seniority', label: 'מתחיל' },
+  { category: 'seniority', label: 'מנוסה' },
+  { category: 'seniority', label: 'ותיק' },
+]
 
-  res.json({ tags })
+export const getTagVocabulary: RequestHandler = (_req, res) => {
+  res.json({ tags: TAG_VOCABULARY })
+}
+
+export const deleteHorse: RequestHandler = async (req, res) => {
+  const id = Number(req.params.id)
+  if (!Number.isInteger(id) || id < 1) throw new AppError(400, 'Invalid horse id')
+
+  const [deleted] = await db.delete(horses).where(eq(horses.id, id)).returning({ id: horses.id })
+  if (!deleted) throw new AppError(404, 'Horse not found')
+
+  res.status(204).send()
 }
