@@ -14,7 +14,7 @@ import { AppError } from './error-handler'
  */
 export interface AuthenticatedRequest extends Request {
   userId: string
-  userRole: 'admin' | 'user'
+  userRole: 'super_admin' | 'admin' | 'user'
 }
 
 const accessSecret = new TextEncoder().encode(config.jwtAccessSecret)
@@ -35,7 +35,7 @@ export async function authenticate(req: Request, _res: Response, next: NextFunct
   try {
     const { payload } = await jose.jwtVerify(token, accessSecret)
     ;(req as AuthenticatedRequest).userId = payload.sub as string
-    ;(req as AuthenticatedRequest).userRole = payload['role'] as 'admin' | 'user'
+    ;(req as AuthenticatedRequest).userRole = payload['role'] as 'super_admin' | 'admin' | 'user'
     next()
   } catch {
     next(new AppError(401, 'Invalid or expired token'))

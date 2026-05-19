@@ -13,15 +13,15 @@ skillsRouter.get('/:id', getSkill)
 skillsRouter.post(
   '/',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   validate({ body: CreateSkillBodySchema }),
   createSkill
 )
 skillsRouter.patch(
   '/:id',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   validate({ body: UpdateSkillBodySchema }),
   updateSkill
 )
-skillsRouter.delete('/:id', authenticate, requireRole('admin'), deleteSkill)
+skillsRouter.delete('/:id', authenticate, requireRole('admin', 'super_admin'), deleteSkill)

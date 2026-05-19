@@ -23,7 +23,7 @@ horsesRouter.get('/tag-vocabulary', getTagVocabulary)
 horsesRouter.post(
   '/',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   validate({ body: CreateHorseBodySchema }),
   createHorse
 )
@@ -32,15 +32,15 @@ horsesRouter.get('/:id', getHorse)
 horsesRouter.patch(
   '/:id',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   validate({ body: UpdateHorseBodySchema }),
   updateHorse
 )
-horsesRouter.delete('/:id', authenticate, requireRole('admin'), deleteHorse)
+horsesRouter.delete('/:id', authenticate, requireRole('admin', 'super_admin'), deleteHorse)
 horsesRouter.post(
   '/:id/image',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   upload.single('image'),
   uploadHorseImage
 )

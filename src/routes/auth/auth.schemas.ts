@@ -22,7 +22,7 @@ export const RefreshBodySchema = z.object({
 const UserSchema = z.object({
   id: z.string().uuid(),
   email: z.string().email(),
-  role: z.enum(['admin', 'user']),
+  role: z.enum(['super_admin', 'admin', 'user']),
 })
 
 const TokensSchema = z.object({

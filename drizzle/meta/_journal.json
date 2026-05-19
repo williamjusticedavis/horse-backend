@@ -64,6 +64,13 @@
       "when": 1776241602545,
       "tag": "0008_shallow_tomorrow_man",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1779192536576,
+      "tag": "0009_funny_warlock",
+      "breakpoints": true
     }
   ]
 }

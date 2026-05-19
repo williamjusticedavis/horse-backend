@@ -21,7 +21,7 @@ const refreshSecret = new TextEncoder().encode(config.jwtRefreshSecret)
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-async function createTokenPair(userId: string, role: 'admin' | 'user') {
+async function createTokenPair(userId: string, role: 'super_admin' | 'admin' | 'user') {
   const accessToken = await new jose.SignJWT({ role })
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(userId)

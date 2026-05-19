@@ -19,15 +19,15 @@ therapyCardsRouter.get('/:id', getTherapyCard)
 therapyCardsRouter.post(
   '/',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   validate({ body: CreateTherapyCardBodySchema }),
   createTherapyCard
 )
 therapyCardsRouter.patch(
   '/:id',
   authenticate,
-  requireRole('admin'),
+  requireRole('admin', 'super_admin'),
   validate({ body: UpdateTherapyCardBodySchema }),
   updateTherapyCard
 )
-therapyCardsRouter.delete('/:id', authenticate, requireRole('admin'), deleteTherapyCard)
+therapyCardsRouter.delete('/:id', authenticate, requireRole('admin', 'super_admin'), deleteTherapyCard)
