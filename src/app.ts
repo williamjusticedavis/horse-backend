@@ -45,7 +45,7 @@ export function createApp() {
       res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
       next()
     },
-    express.static(uploadsDir)
+    express.static(uploadsDir, { maxAge: '1y', immutable: true })
   )
 
   // ── API routes ────────────────────────────────────────────────────────────────
