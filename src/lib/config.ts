@@ -18,7 +18,7 @@ const envSchema = z.object({
   JWT_ACCESS_SECRET: z.string().min(1, 'JWT_ACCESS_SECRET is required'),
   JWT_REFRESH_SECRET: z.string().min(1, 'JWT_REFRESH_SECRET is required'),
   /** e.g. "15m", "1h" — anything jose accepts as an expiry string */
-  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('1h'),
   /** e.g. "7d" */
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
 
